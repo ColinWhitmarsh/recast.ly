@@ -9,43 +9,43 @@ class App extends React.Component {
       currentVideoViewCount: 0,
       currentVideoLikeCount: 0,
       currentVideoDislikeCount: 0
-    }
+    };
   }
 
   handleSearchInput(searchedText){
     searchYouTube(searchedText, (data) => {
-      this.setState({videos: data.items})
+      this.setState({videos: data.items});
     });
   }
 
   handleVideoListEntryClick(currentVideo) {
-    this.setState({currentVideo: currentVideo})
+    this.setState({currentVideo: currentVideo});
     searchYouTubeForStats(currentVideo.id.videoId, (stats) => {
       this.setState({
         currentVideoDislikeCount: stats.items[0].statistics.dislikeCount,
         currentVideoViewCount: stats.items[0].statistics.viewCount,
         currentVideoLikeCount: stats.items[0].statistics.likeCount
-      })
-    })
+      });
+    });
   } 
 
   componentDidMount() {
     searchYouTube('', (data) => {
-      this.setState({videos: data.items, currentVideo: data.items[0]})
+      this.setState({videos: data.items, currentVideo: data.items[0]});
       searchYouTubeForStats(data.items[0].id.videoId, (stats) => {
         this.setState({
           currentVideoDislikeCount: stats.items[0].statistics.dislikeCount,
           currentVideoViewCount: stats.items[0].statistics.viewCount,
           currentVideoLikeCount: stats.items[0].statistics.likeCount
-        })
-      })
+        });
+      });
     });
   }
 
   render () {
     return  (
       <div>
-        <Nav handleSearchInput={this.handleSearchInput.bind(this)}/>
+        <Nav handleSearchInput={this.handleSearchInput.bind(this)} />
         <div className="col-md-7">
           <VideoPlayer state={this.state}/>
         </div>
